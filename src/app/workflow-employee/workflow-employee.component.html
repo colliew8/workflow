@@ -1,0 +1,20 @@
+<p>{{ employee.employeeCodeClient }} ({{ employee.employeeCode }}) {{employee.fname}} {{employee.lname}}</p>
+
+
+<div style="padding-left: 30px" *ngFor="let t of timesheets">
+  <table style="border-style: solid;">
+    <tr>
+      <th>labour date</th>
+      <th>ts id</th>
+      <th *ngFor="let tt of t.totals">{{ tt.rateTypeId }}</th>
+    </tr>
+    <tr>
+      <td>{{ t.timesheet.Date }}</td>
+      <td>{{ t.timesheet.TimesheetID }}</td>
+      <td *ngFor="let tt of t.totals">
+        <a *ngIf="!canEdit" (click)='canEdit=!canEdit'>{{ tt.timeDecimal }}</a>
+        <input *ngIf="canEdit" [(ngModel)]="tt.timeDecimal">
+      </td>
+    </tr>
+  </table>
+</div>
