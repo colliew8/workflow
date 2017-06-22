@@ -1,0 +1,28 @@
+<app-wf-header></app-wf-header>
+<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+
+<div *ngIf="rateTypesLoading; then loader else content"></div>
+
+<ng-template #loader>
+  <md-progress-spinner
+    class="example-margin, spinner-small"
+    [color]="color"
+    [mode]="mode"
+    [value]="value">
+  </md-progress-spinner>
+</ng-template>
+
+<ng-template #content>
+
+  <div *ngFor="let e of wfEmployees">
+    <app-workflow-employee
+      [employee]=e
+      [calendar]=wfInstance.calendarID
+      [rateTypes]=rateTypes.result>
+    </app-workflow-employee>
+  </div>
+
+  <p>Page {{ page() }} of {{ pages() }} ({{ total }} total) </p>
+  <button (click)='previous()'>previous</button>
+  <button (click)='next()'>next</button>
+</ng-template>

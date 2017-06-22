@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { EmployeeService } from '../employee.service';
-import { Employee } from '../models/employee';
-
-import { WFInstanceService } from '../wf-instance.service';
+import { ElmsApiService } from '../../services/elms-api.service';
+import { Employee } from '../../models/employee';
 
 @Component({
   selector: 'app-workflow',
   templateUrl: './workflow.component.html',
   styleUrls: ['./workflow.component.css']
 })
+
 export class WorkflowComponent implements OnInit {
   errorMessage: string;
 
@@ -18,12 +17,14 @@ export class WorkflowComponent implements OnInit {
   wfInstance: any;
   wfEmployees: Employee[];
 
+  rateTypes: any;
+  rateTypesLoading: boolean;
+
   skip: number;
   limit: number;
   total: number;
 
-  constructor(private eS: EmployeeService,
-    private wfiS: WFInstanceService,
+  constructor(private elmsApi: ElmsApiService,
     private route: ActivatedRoute,
     private router: Router) {
     this.total = 0;
@@ -31,7 +32,7 @@ export class WorkflowComponent implements OnInit {
 
   ngOnInit() {
     this.skip = 0;
-    this.limit = 20;
+    this.limit = 10;
 
     const sub = this.route
       .queryParams
@@ -41,6 +42,9 @@ export class WorkflowComponent implements OnInit {
         this.getWFInstance();
         this.getEmployees();
       });
+
+    this.rateTypesLoading = true;
+    this.getRatetypes();
   }
 
   getEmployees() {
@@ -48,7 +52,7 @@ export class WorkflowComponent implements OnInit {
       return;
     }
 
-    this.eS.getEmployees(this.wfInstanceId, this.skip, this.limit)
+    this.elmsApi.getEmployees(this.skip, this.limit, this.wfInstanceId)
       .subscribe(
         result => {
           this.wfEmployees = result.employees;
@@ -62,13 +66,25 @@ export class WorkflowComponent implements OnInit {
       return;
     }
 
-    this.wfiS.getWFInstance(this.wfInstanceId, this.skip, this.limit)
+    this.elmsApi.getWFInstance(this.skip, this.limit, this.wfInstanceId)
       .subscribe(
         result => {
           this.wfInstance = result;
-          console.log(this.wfInstance);
         },
         error =>  this.errorMessage = <any>error);
+  }
+
+  getRatetypes() {
+    this.elmsApi.getRateTypes(0, 1000)
+      .subscribe(
+        result => {
+          this.rateTypes = result;
+          this.rateTypesLoading = false;
+        },
+        error =>  {
+          this.errorMessage = <any>error;
+          this.rateTypesLoading = false;
+        })
   }
 
   page() {

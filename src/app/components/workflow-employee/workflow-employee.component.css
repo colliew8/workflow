@@ -1,0 +1,25 @@
+.example-margin {
+  // margin: 0 10px;
+  width: 500px;
+}
+
+.spinner-small {
+  width: 30px;
+  height: 30px;
+}
+
+.example-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.table-border {
+  border-style: solid;
+  border-width: 1px;
+}
+
+.table-header-seperator {
+  border-style: solid;
+}

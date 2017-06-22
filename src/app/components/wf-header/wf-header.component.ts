@@ -10,6 +10,7 @@ export class WfHeaderComponent implements OnInit {
   wire = 'wireframe';
 
   header = {
+    type: '',
     structure: '',
     wfRule: '',
     date: ''
@@ -18,6 +19,7 @@ export class WfHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.header.type = 'Daily Timesheet'
     this.header.structure = '<<Structure>>';
     this.header.wfRule = '<<Workflow Rule>>';
     this.header.date = '<<Date>>';

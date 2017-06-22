@@ -5,25 +5,30 @@ import { HttpModule, JsonpModule } from '@angular/http';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { DataService } from './data.service';
-import { EmployeeService } from './employee.service';
-import { RateTypeService } from './rate-type.service';
-import { TimesheetService } from './timesheet.service';
-import { WFInstanceService } from './wf-instance.service';
+import { ElmsApiService } from './services/elms-api.service';
 
 import { AppComponent } from './app.component';
 
 import 'hammerjs';
 
-import { WorkflowEmployeeComponent } from './workflow-employee/workflow-employee.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { WfHeaderComponent } from './wf-header/wf-header.component';
-import { WorkflowComponent } from './workflow/workflow.component';
+import { WorkflowEmployeeComponent } from './components/workflow-employee/workflow-employee.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { WfHeaderComponent } from './components/wf-header/wf-header.component';
+import { WorkflowComponent } from './components/workflow/workflow.component';
 import {
   MdToolbarModule,
-  MdIconModule
+  MdIconModule,
+  MdInputModule,
+  MdCardModule,
+  MdProgressSpinnerModule,
+  MdChipsModule,
+  MdProgressBarModule
 } from '@angular/material';
+
+import { RateTypePipe } from './rate-type.pipe';
+import { ColumnFilterPipe } from './column-filter.pipe';
+import { DecimalToTimePipe } from './decimal-to-time.pipe';
 
 const appRoutes = [
   { path: 'workflows', component: WorkflowComponent }
@@ -36,7 +41,10 @@ const appRoutes = [
     HeaderComponent,
     FooterComponent,
     WfHeaderComponent,
-    WorkflowComponent
+    WorkflowComponent,
+    RateTypePipe,
+    ColumnFilterPipe,
+    DecimalToTimePipe
   ],
   imports: [
     BrowserModule,
@@ -46,14 +54,15 @@ const appRoutes = [
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     MdToolbarModule,
-    MdIconModule
+    MdIconModule,
+    MdInputModule,
+    MdCardModule,
+    MdProgressSpinnerModule,
+    MdChipsModule,
+    MdProgressBarModule
   ],
   providers: [
-    DataService,
-    EmployeeService,
-    RateTypeService,
-    TimesheetService,
-    WFInstanceService
+    ElmsApiService
   ],
   bootstrap: [AppComponent]
 })
