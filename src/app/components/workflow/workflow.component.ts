@@ -70,6 +70,7 @@ export class WorkflowComponent implements OnInit {
       .subscribe(
         result => {
           this.wfInstance = result;
+          console.log(result);
         },
         error =>  this.errorMessage = <any>error);
   }

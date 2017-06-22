@@ -21,7 +21,14 @@ export class WorkflowEmployeeComponent implements OnInit {
   mode = 'query';
 
   tableClass = {
-    'table-border': false
+    'mdl-data-table': true,
+    'mdl-js-data-table': true,
+    'mdl-data-table--selectable': true,
+    'mdl-shadow--2dp': true,
+  }
+
+  tableHeader = {
+    'mdl-data-table__cell--non-numeric': true
   }
 
   cssTableHeader = {
