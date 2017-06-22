@@ -1,9 +1,9 @@
 <md-card class="header-card">
   <md-card-header>
-    <md-card-title>{{ header.type }}</md-card-title>
-    <md-card-subtitle>{{ header.wfRule }}</md-card-subtitle>
+    <md-card-title>{{ wfInstance.wfName }} ({{ wfInstance.wfTypeDescription }})</md-card-title>
+    <md-card-subtitle>{{ wfInstance.calendarFrom | date:"EEE dd/MM/yyyy" }} - {{ wfInstance.calanderTo | date:"EEE dd/MM/yyyy" }}</md-card-subtitle>
   </md-card-header>
   <md-card-content>
-    <span>{{ header.date }} {{ header.structure }}</span>
+    <p> {{ wfInstance.structureDescription}}</p>
   </md-card-content>
 </md-card>

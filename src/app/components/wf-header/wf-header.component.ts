@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-wf-header',
@@ -7,22 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WfHeaderComponent implements OnInit {
 
-  wire = 'wireframe';
-
-  header = {
-    type: '',
-    structure: '',
-    wfRule: '',
-    date: ''
-  };
+  @Input() wfInstance: object;
 
   constructor() { }
 
   ngOnInit() {
-    this.header.type = 'Daily Timesheet'
-    this.header.structure = '<<Structure>>';
-    this.header.wfRule = '<<Workflow Rule>>';
-    this.header.date = '<<Date>>';
   }
 
 }

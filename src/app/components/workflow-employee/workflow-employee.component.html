@@ -12,65 +12,60 @@
     <div *ngIf="timesheetsLoading; then loader else times"></div>
 
     <ng-template #loader>
-      <!-- <md-progress-spinner
-        class="example-margin, spinner-small"
-        [color]="color"
-        [mode]="mode"
-        [value]="value">
-      </md-progress-spinner> -->
       <div>
         <table [ngClass]="tableClass">
           <tr>
-            <th width="20px" style="text-align: center">status</th>
-            <th width="120px" style="text-align: center">labour date</th>
-            <th width="70px" style="text-align: center">Start</th>
-            <th width="30px" style="text-align: center">Break</th>
-            <th width="70px" style="text-align: center">Finish</th>
-            <th *ngFor="let rt of columnHeaders" width="30px">{{ rt.Description }}</th>
-            <th width="100px" style="text-align: center">Bill value</th>
-            <th width="100px" style="text-align: center">Pay value</th>
+            <th>status</th>
+            <th>labour date</th>
+            <th>Start</th>
+            <th>Break</th>
+            <th>Finish</th>
+            <th *ngFor="let rt of columnHeaders">
+              {{ rt.Description }}</th>
+            <th>Bill value</th>
+            <th>Pay value</th>
           </tr>
-          <tr *ngFor="let d of days">
-            <td style="text-align: center"></td>
-            <td style="text-align: center">{{ d | date:"EEE dd/MM/yyyy" }}</td>
-            <td style="text-align: center">{{ fake.time }}</td>
-            <td style="text-align: center">{{ fake.number }}</td>
-            <td style="text-align: center">{{ fake.time }}</td>
-            <td *ngFor="let rt of columnHeaders" style="text-align: center">
+          <tr *ngFor="let d of wfDays">
+            <td></td>
+            <td>{{ d | date:"EEE dd/MM/yyyy" }}</td>
+            <td>{{ fake.time }}</td>
+            <td>{{ fake.number }}</td>
+            <td>{{ fake.time }}</td>
+            <td *ngFor="let rt of columnHeaders">
               {{ fake.time }}
             </td>
-            <td style="text-align: center">{{ fake.textMedium }}</td>
-            <td style="text-align: center">{{ fake.textMedium }}</td>
+            <td>{{ fake.textMedium }}</td>
+            <td>{{ fake.textMedium }}</td>
           </tr>
         </table>
       </div>
     </ng-template>
 
     <ng-template #times>
-      <div *ngIf="timesheets">
+      <div>
 
         <table [ngClass]="tableClass">
           <tr>
-            <th width="20px" style="text-align: center">status</th>
-            <th width="120px" style="text-align: center">labour date</th>
-            <th width="70px" style="text-align: center">Start</th>
-            <th width="30px" style="text-align: center">Break</th>
-            <th width="70px" style="text-align: center">Finish</th>
-            <th *ngFor="let rt of columnHeaders" width="30px">{{ rt.Description }}</th>
-            <th width="100px" style="text-align: center">Bill value</th>
-            <th width="100px" style="text-align: center">Pay value</th>
+            <th>status</th>
+            <th>labour date</th>
+            <th>Start</th>
+            <th>Break</th>
+            <th>Finish</th>
+            <th *ngFor="let rt of columnHeaders">{{ rt.Description }}</th>
+            <th>Bill value</th>
+            <th>Pay value</th>
           </tr>
           <tr *ngFor="let t of timesheets">
-            <td style="text-align: center">{{ t.timesheet.LockBatchID }}</td>
-            <td style="text-align: center">{{ t.timesheet.Date | date:"EEE dd/MM/yyyy" }}</td>
-            <td style="text-align: center">{{ t.timesheet.Date | date:"HH:mm" }}</td>
-            <td style="text-align: center">{{ 0 }}</td>
-            <td style="text-align: center">{{ t.timesheet.Date | date:"HH:mm" }}</td>
-            <td *ngFor="let rt of columnHeaders" style="text-align: center">
+            <td>{{ t.timesheet.LockBatchID }}</td>
+            <td>{{ t.timesheet.Date | date:"EEE dd/MM/yyyy" }}</td>
+            <td>{{ t.timesheet.Date | date:"HH:mm" }}</td>
+            <td>{{ 0 }}</td>
+            <td>{{ t.timesheet.Date | date:"HH:mm" }}</td>
+            <td *ngFor="let rt of columnHeaders">
               {{ t.Total.Breakdown | rateType: rt.RateTypeID | decimalToTime }}
             </td>
-            <td style="text-align: center">{{ t.Total.BillValue | currency:'ZAR':true }}</td>
-            <td style="text-align: center">{{ t.Total.PayValue | currency:'ZAR':true }}</td>
+            <td>{{ t.Total.BillValue | currency:'ZAR':true }}</td>
+            <td>{{ t.Total.PayValue | currency:'ZAR':true }}</td>
           </tr>
         </table>
       </div>

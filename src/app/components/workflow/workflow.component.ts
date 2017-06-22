@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ElmsApiService } from '../../services/elms-api.service';
 import { Employee } from '../../models/employee';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-workflow',
   templateUrl: './workflow.component.html',
@@ -16,6 +18,7 @@ export class WorkflowComponent implements OnInit {
   wfInstanceId: number;
   wfInstance: any;
   wfEmployees: Employee[];
+  wfDays: any[];
 
   rateTypes: any;
   rateTypesLoading: boolean;
@@ -69,8 +72,8 @@ export class WorkflowComponent implements OnInit {
     this.elmsApi.getWFInstance(this.skip, this.limit, this.wfInstanceId)
       .subscribe(
         result => {
-          this.wfInstance = result;
-          console.log(result);
+          this.wfInstance = result.result[0];
+          this.fillExpectedDays(this.wfInstance.calendarFrom, this.wfInstance.calanderTo);
         },
         error =>  this.errorMessage = <any>error);
   }
@@ -86,6 +89,16 @@ export class WorkflowComponent implements OnInit {
           this.errorMessage = <any>error;
           this.rateTypesLoading = false;
         })
+  }
+
+  fillExpectedDays(from: Date, to: Date) {
+    const days = [];
+
+    for (const i = moment(from); i < moment(to); i.add(1, 'days')) {
+      days.push(i);
+    };
+
+    this.wfDays = days;
   }
 
   page() {

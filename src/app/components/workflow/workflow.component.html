@@ -1,4 +1,5 @@
-<app-wf-header></app-wf-header>
+<app-wf-header *ngIf="wfInstance" [wfInstance]=wfInstance></app-wf-header>
+
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
 
 <div *ngIf="rateTypesLoading; then loader else content"></div>
@@ -18,7 +19,8 @@
     <app-workflow-employee
       [employee]=e
       [calendar]=wfInstance.calendarID
-      [rateTypes]=rateTypes.result>
+      [rateTypes]=rateTypes.result
+      [wfDays]=wfDays>
     </app-workflow-employee>
   </div>
 

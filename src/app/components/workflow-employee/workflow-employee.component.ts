@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 import { Employee } from '../../models/employee';
 import { ElmsApiService } from '../../services/elms-api.service';
@@ -47,7 +48,7 @@ export class WorkflowEmployeeComponent implements OnInit {
   @Input() employee: Employee;
   @Input() calendar: number;
   @Input() rateTypes: any;
-  days: any[];
+  @Input() wfDays: any[];
 
   errorMessage: string;
   skip: number;
@@ -65,12 +66,6 @@ export class WorkflowEmployeeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.days = [
-      new Date('19 June 2017'),
-      new Date('20 June 2017'),
-      new Date('21 June 2017')
-    ]
-
     this.fake = {
       date: '--- --/--/----',
       time: '--:--',
