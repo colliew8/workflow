@@ -43,6 +43,25 @@ export class ElmsApiService {
                     .catch(this.handleError);
   }
 
+  getContractOrderEmployee(
+    skip = this.skip,
+    limit = this.limit,
+    coeID
+  ): Observable<any> {
+    const config = new Configuration();
+
+    const headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${config.token}`
+    });
+
+    const options = new RequestOptions({ headers: headers });
+
+    return this.http.get(`${config.serverWithApiUrl}contractorderemployees/${coeID}?skip=${skip}&limit=${limit}`, options)
+                    .map(this.extractDataGeneric)
+                    .catch(this.handleError);
+  }
+
   getTimesheets(
     skip = this.skip,
     limit = this.limit,

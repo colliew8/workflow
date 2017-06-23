@@ -12,16 +12,19 @@
     [value]="value">
   </md-progress-spinner>
 </ng-template>
-
 <ng-template #content>
-
-  <div *ngFor="let e of wfEmployees">
-    <app-workflow-employee
-      [employee]=e
-      [calendar]=wfInstance.calendarID
-      [rateTypes]=rateTypes.result
-      [wfDays]=wfDays>
-    </app-workflow-employee>
+  <div *ngIf="wfEmployeesLoading">
+    Employees loading
+  </div>
+  <div *ngIf="!wfEmployeesLoading">
+    <div *ngFor="let e of wfEmployees">
+      <app-workflow-employee
+        [employee]=e
+        [calendar]=wfInstance.calendarID
+        [rateTypes]=rateTypes.result
+        [wfDays]=wfDays>
+      </app-workflow-employee>
+    </div>
   </div>
 
   <p>Page {{ page() }} of {{ pages() }} ({{ total }} total) </p>

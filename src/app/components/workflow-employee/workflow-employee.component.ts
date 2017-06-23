@@ -21,30 +21,6 @@ export class WorkflowEmployeeComponent implements OnInit {
   color = 'primary';
   mode = 'query';
 
-  tableClass = {
-    'mdl-data-table': true,
-    'mdl-js-data-table': true,
-    'mdl-data-table--selectable': true,
-    'mdl-shadow--2dp': true,
-  }
-
-  tableHeader = {
-    'mdl-data-table__cell--non-numeric': true
-  }
-
-  cssTableHeader = {
-    'table-header-seperator': true
-  }
-
-  fake: {
-    date: string,
-    time: string,
-    number: string,
-    textShort: string,
-    textMedium: string,
-    textLong: string,
-  };
-
   @Input() employee: Employee;
   @Input() calendar: number;
   @Input() rateTypes: any;
@@ -66,14 +42,6 @@ export class WorkflowEmployeeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.fake = {
-      date: '--- --/--/----',
-      time: '--:--',
-      number: '--',
-      textShort: '___',
-      textMedium: '______',
-      textLong: '_____________'
-    };
 
     this.columnHeaders = [
       { 'Description': 'Normal Time', 'RateTypeID': 2 },
@@ -83,29 +51,34 @@ export class WorkflowEmployeeComponent implements OnInit {
       { 'Description': 'Shift Allowance', 'RateTypeID': 23 },
     ];
 
-    this.componentLoading = false;
-
     this.skip = 0;
     this.limit = 20;
     this.total = 0;
 
-    this.timesheetsLoading = true;
     this.getTimesheets();
 
     this.canEdit = false;
+
+    this.componentLoading = false;
   }
 
   getTimesheets() {
+    this.timesheetsLoading = true;
+
     if (!this.employee) {
       return;
     }
 
-    this.elmsApi.getTimesheets(this.skip, this.limit, this.employee.contractorderEmployeeID, this.calendar)
+    this.elmsApi.getTimesheets(
+      this.skip,
+      this.limit,
+      this.employee.contractorderEmployeeID,
+      this.calendar)
       .subscribe(
         result => {
           this.total = result.total;
-          this.calculateTimesheetTotals(result.result);
-          this.timesheetsLoading = false;
+          this.timesheets = result.result;
+          this.addMissingDates();
         },
         error => {
           this.errorMessage = <any>error;
@@ -113,8 +86,31 @@ export class WorkflowEmployeeComponent implements OnInit {
         })
   }
 
-  calculateTimesheetTotals(r: any) {
-    this.timesheets = r;
+  addMissingDates() {
+    console.log(this.employee.coeDetails);
+    const count = this.wfDays.length;
+
+    for (let i = 0; i < count; i++) {
+      if (_.findIndex(this.timesheets, { timesheet: { Date: this.wfDays[i].format('YYYY-MM-DDTHH:mm:ss') } }) < 0) {
+
+        this.timesheets.push(
+          {
+            'timesheet': {
+              'Date': this.wfDays[i].format('YYYY-MM-DDTHH:mm:ss')
+            },
+            'Total': {
+                'TimeValue': 0,
+                'PayValue': 0,
+                'BillValue': 0,
+                'Breakdown': []
+            },
+            'contractOrderEmployeeDetails': this.employee.coeDetails
+          })
+      }
+      if ( i === count - 1 ) {
+        this.timesheetsLoading = false;
+      }
+    }
   }
 
 }

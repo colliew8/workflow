@@ -18,6 +18,7 @@ export class WorkflowComponent implements OnInit {
   wfInstanceId: number;
   wfInstance: any;
   wfEmployees: Employee[];
+  wfEmployeesLoading: boolean;
   wfDays: any[];
 
   rateTypes: any;
@@ -36,6 +37,7 @@ export class WorkflowComponent implements OnInit {
   ngOnInit() {
     this.skip = 0;
     this.limit = 10;
+    this.wfDays = [];
 
     const sub = this.route
       .queryParams
@@ -51,6 +53,8 @@ export class WorkflowComponent implements OnInit {
   }
 
   getEmployees() {
+    this.wfEmployeesLoading = true;
+
     if (this.wfInstanceId === undefined || this.wfInstanceId === null) {
       return;
     }
@@ -59,6 +63,7 @@ export class WorkflowComponent implements OnInit {
       .subscribe(
         result => {
           this.wfEmployees = result.employees;
+          this.reformatEmployees();
           this.total = result.total;
         },
         error =>  this.errorMessage = <any>error);
@@ -91,14 +96,36 @@ export class WorkflowComponent implements OnInit {
         })
   }
 
+  reformatEmployees() {
+    const count = this.wfEmployees.length;
+    for (let i = 0; i < count; i++) {
+      console.log(this.wfEmployees[i].contractorderEmployeeID);
+
+      this.elmsApi.getContractOrderEmployee(this.skip, this.limit, this.wfEmployees[i].contractorderEmployeeID)
+        .subscribe(
+          result => {
+            if (result.result.length > 0) {
+              this.wfEmployees[i].coeDetails = result.result[0];
+            } else {
+              this.wfEmployees[i].coeDetails = {};
+            }
+
+            if (i === count - 1) {
+              this.wfEmployeesLoading = false;
+              console.log('reformat done');
+              console.log(this.wfEmployees);
+            }
+          },
+          error =>  this.errorMessage = <any>error);
+    }
+  }
+
   fillExpectedDays(from: Date, to: Date) {
-    const days = [];
-
     for (const i = moment(from); i < moment(to); i.add(1, 'days')) {
-      days.push(i);
+      if (i < moment().startOf('day')) {
+        this.wfDays.push(moment(i));
+      }
     };
-
-    this.wfDays = days;
   }
 
   page() {

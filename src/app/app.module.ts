@@ -29,6 +29,8 @@ import {
 import { RateTypePipe } from './rate-type.pipe';
 import { ColumnFilterPipe } from './column-filter.pipe';
 import { DecimalToTimePipe } from './decimal-to-time.pipe';
+import { WfDailyComponent } from './components/wf-daily/wf-daily.component';
+import { OrderByPipe } from './pipes/order-by.pipe';
 
 const appRoutes = [
   { path: 'workflows', component: WorkflowComponent }
@@ -44,7 +46,9 @@ const appRoutes = [
     WorkflowComponent,
     RateTypePipe,
     ColumnFilterPipe,
-    DecimalToTimePipe
+    DecimalToTimePipe,
+    WfDailyComponent,
+    OrderByPipe
   ],
   imports: [
     BrowserModule,
