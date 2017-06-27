@@ -58,8 +58,8 @@ export class ElmsApiService {
     const options = new RequestOptions({ headers: headers });
 
     return this.http.get(`${config.serverWithApiUrl}contractorderemployees/${coeID}?skip=${skip}&limit=${limit}`, options)
-                    .map(this.extractDataGeneric)
-                    .catch(this.handleError);
+      .map(this.extractDataGeneric)
+      .catch(this.handleError);
   }
 
   getTimesheets(
@@ -153,6 +153,7 @@ export class ElmsApiService {
   private extractDataGeneric(res: Response) {
     let body: any;
     body = res.json();
+    console.log(body);
 
     return body || { result: null, total: 0 };
   }

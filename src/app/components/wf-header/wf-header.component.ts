@@ -7,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class WfHeaderComponent implements OnInit {
 
-  @Input() wfInstance: object;
+  @Input() wfInstance: any;
 
   constructor() { }
 

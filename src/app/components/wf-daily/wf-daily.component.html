@@ -1,0 +1,73 @@
+<div *ngIf="timesheetsLoading; then loader else times"></div>
+
+<ng-template #loader>
+  <div>
+    <table [ngClass]="tableClass">
+      <tr>
+        <th>status</th>
+        <th>labour date</th>
+        <th>Start</th>
+        <th>Break</th>
+        <th>Finish</th>
+        <th *ngFor="let rt of columnHeaders">
+          {{ rt.Description }}</th>
+        <th>Bill value</th>
+        <th>Pay value</th>
+      </tr>
+      <tr *ngFor="let d of wfDays">
+        <td></td>
+        <td>{{ d | date:"EEE dd/MM/yyyy" }}</td>
+        <td>--:--</td>
+        <td>-</td>
+        <td>--:--</td>
+        <td *ngFor="let rt of columnHeaders">
+          --:--
+        </td>
+        <td>R ---.--</td>
+        <td>R ---.--</td>
+      </tr>
+    </table>
+  </div>
+</ng-template>
+
+<ng-template #times>
+  <div>
+
+    <table [ngClass]="tableClass">
+      <tr>
+        <th></th>
+        <th>status</th>
+        <th>labour date</th>
+        <th>Start</th>
+        <th>Break</th>
+        <th>Finish</th>
+        <th>Cost Centre</th>
+        <th>Position</th>
+        <th>Rategroup</th>
+        <th>Workgroup</th>
+        <th *ngFor="let rt of columnHeaders">{{ rt.Description }}</th>
+        <th>Bill value</th>
+        <th>Pay value</th>
+      </tr>
+      <tr *ngFor="let t of timesheets " (click)='selectDay(t)'>
+        <td>
+          <a md-button (click)="openDialog(t)">edit</a>
+        </td>
+        <td>{{ t.timesheet.LockBatchID }}</td>
+        <td>{{ t.timesheet.Date | date:"EEE dd/MM/yyyy" }}</td>
+        <td>{{ t.timesheet.Date | date:"HH:mm" }}</td>
+        <td>{{ 0 }}</td>
+        <td>{{ t.timesheet.Date | date:"HH:mm" }}</td>
+        <td>{{ t.contractOrderEmployeeDetails.costCentreName }}</td>
+        <td>{{ t.contractOrderEmployeeDetails.position }}</td>
+        <td>{{ t.contractOrderEmployeeDetails.contractOrderPositionRateGroup }}</td>
+        <td>{{ t.contractOrderEmployeeDetails.workgroup }}</td>
+        <td *ngFor="let rt of columnHeaders">
+          {{ t.Total.Breakdown | rateType: rt.RateTypeID | decimalToTime }}
+        </td>
+        <td>{{ t.Total.BillValue | currency:'ZAR':true }}</td>
+        <td>{{ t.Total.PayValue | currency:'ZAR':true }}</td>
+      </tr>
+    </table>
+  </div>
+</ng-template>

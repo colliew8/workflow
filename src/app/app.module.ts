@@ -23,7 +23,10 @@ import {
   MdCardModule,
   MdProgressSpinnerModule,
   MdChipsModule,
-  MdProgressBarModule
+  MdProgressBarModule,
+  MdDialogModule,
+  MdButtonModule,
+  MdSnackBarModule
 } from '@angular/material';
 
 import { RateTypePipe } from './rate-type.pipe';
@@ -31,6 +34,8 @@ import { ColumnFilterPipe } from './column-filter.pipe';
 import { DecimalToTimePipe } from './decimal-to-time.pipe';
 import { WfDailyComponent } from './components/wf-daily/wf-daily.component';
 import { OrderByPipe } from './pipes/order-by.pipe';
+import { ElmsTimesheetpopupComponent } from './components/elms-timesheetpopup/elms-timesheetpopup.component';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
 
 const appRoutes = [
   { path: 'workflows', component: WorkflowComponent }
@@ -48,7 +53,9 @@ const appRoutes = [
     ColumnFilterPipe,
     DecimalToTimePipe,
     WfDailyComponent,
-    OrderByPipe
+    OrderByPipe,
+    ElmsTimesheetpopupComponent,
+    SafeUrlPipe
   ],
   imports: [
     BrowserModule,
@@ -63,12 +70,18 @@ const appRoutes = [
     MdCardModule,
     MdProgressSpinnerModule,
     MdChipsModule,
-    MdProgressBarModule
+    MdProgressBarModule,
+    MdDialogModule,
+    MdButtonModule,
+    MdSnackBarModule
   ],
   providers: [
     ElmsApiService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ElmsTimesheetpopupComponent
+  ]
 })
 
 export class AppModule { }

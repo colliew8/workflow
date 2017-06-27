@@ -1,4 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
+
+import { ElmsTimesheetpopupComponent } from '../elms-timesheetpopup/elms-timesheetpopup.component';
 
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -38,7 +41,9 @@ export class WorkflowEmployeeComponent implements OnInit {
 
   columnHeaders: any;
 
-  constructor(private elmsApi: ElmsApiService) {
+  constructor(
+    private elmsApi: ElmsApiService,
+    public dialog: MdDialog) {
   }
 
   ngOnInit() {
@@ -87,7 +92,7 @@ export class WorkflowEmployeeComponent implements OnInit {
   }
 
   addMissingDates() {
-    console.log(this.employee.coeDetails);
+    // console.log(this.employee.coeDetails);
     const count = this.wfDays.length;
 
     for (let i = 0; i < count; i++) {
@@ -111,6 +116,21 @@ export class WorkflowEmployeeComponent implements OnInit {
         this.timesheetsLoading = false;
       }
     }
+  }
+
+  openDialog() {
+    const config = new MdDialogConfig();
+    const dialogRef = this.dialog.open(ElmsTimesheetpopupComponent, config);
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
+
+    const coeid = this.employee.contractorderEmployeeID;
+    const period = this.wfDays[0].format('DD MMM YYYY') + ' to ' + this.wfDays[0].add(7, 'day').format('DD MMM YYYY')
+
+    dialogRef.componentInstance.contractOrderEmployeeID = coeid
+    dialogRef.componentInstance.period = period;
+    // dialogRef.componentInstance.period = '12 Jun 2017 to 18 Jun 2017';
   }
 
 }
