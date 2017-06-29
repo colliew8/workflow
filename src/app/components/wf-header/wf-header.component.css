@@ -5,10 +5,10 @@
 
 }
 
-.header-card {
-
-}
-
 .example-header-image {
   background-size: cover;
+}
+
+@media screen and (max-width: 991px) {
+  .mat-card-content {margin-bottom: 0px;}
 }

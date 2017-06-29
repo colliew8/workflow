@@ -13,6 +13,7 @@ export class ElmsTimesheetpopupComponent implements OnInit {
   contractOrderEmployeeID: number;
   period: string;
   popupUrl: string;
+  wfInstanceId: number;
 
   constructor(public dialogRef: MdDialogRef<WfDailyComponent>) { }
 
